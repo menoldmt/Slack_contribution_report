@@ -1,0 +1,62 @@
+---
+title: 2023 VSOAR Slack Activity
+author: Matthew Tyler Menold
+output:
+    html_document:
+        code_folding: hide
+        toc: true
+        toc_float: true
+        toc_depth: 3
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE, results='asis')
+```
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(tidyverse)
+```
+
+# Slack Usage {.tabset .tabset-pills}
+
+## Overall Usage
+
+**Over 3,000 messages were sent this summer!**
+
+```{r, out.width='1500px', out.height='500px'}
+#cat('Over 3,000 messages were sent this summer!')
+knitr::include_graphics("All_time_usage.png")
+```
+
+## Public vs Private
+
+**People prefered sending messages privately!**
+
+```{r, out.width='1500px', out.height='450px'}
+#cat('People prefered sending messages privately!')
+knitr::include_graphics("Public_vs_Private.png")
+```
+
+## Contributions by Channel
+
+```{r, fig.width=15, fig.height=10}
+# Read the CSV file
+data <- read_tsv('2023_vsoar_slack_data.tsv')
+
+# Filter out rows where count is zero
+data <- data %>% filter(count > 0)
+
+# Create the ggplot bar plot
+plot <- ggplot(data, aes(x=reorder(name, -contributions), y=count, fill=channel)) +
+  geom_bar(stat='identity') +
+  labs(x='User Name',
+       y='Number of Contributions',
+       fill='Channel') +
+  theme(axis.text.x=element_text(size=15, angle=45, hjust=1),
+        text = element_text(size=15))
+
+# Show the plot
+print(plot)
+```
+
